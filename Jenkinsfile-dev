@@ -84,8 +84,5 @@ pipeline {
                 slackSend channel: 'fx-dev' , attachments: [attachment], tokenCredentialId: 'slack-auth'
             }
         }
-        //success {
-        //    build job: 'cd-production'
-        //}
     }
 }
