@@ -45,9 +45,8 @@ pipeline {
                 principalCredentialId: 'azure-jenkins-app-auth'
             }
         }
-    }
 
-    stage('Deploy API') {
+        stage('Deploy API') {
             steps {
                 azureCLI commands: [
                     [exportVariablesString: '', script: 'az acr login -n simpleCalculatorRegistry'],
@@ -56,6 +55,9 @@ pipeline {
                 principalCredentialId: 'azure-jenkins-app-auth'
             }
         }
+    }
+
+
 
     post {
         always {
