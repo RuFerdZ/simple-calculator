@@ -11,16 +11,16 @@ pipeline {
     }
 
     stages {
-        stage('Checkout Code') {
-            steps {
+        //stage('Checkout Code') {
+          //  steps {
                 // Use checkout scm plugin for improved security
-               checkout scmGit(
-                    branches: [[name: '*/master']],
-                    extensions: [],
-                    userRemoteConfigs: [[credentialsId: 'github-auth', url: 'https://github.com/RuFerdZ/simple-calculator-private.git']]
-                )
-            }
-        }
+            //   checkout scmGit(
+              //      branches: [[name: '*/master']],
+                //    extensions: [],
+                  //  userRemoteConfigs: [[credentialsId: 'github-auth', url: 'https://github.com/RuFerdZ/simple-calculator-private.git']]
+                //)
+            //}
+        //}
 
         stage('Create build executable') {
             steps {
