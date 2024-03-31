@@ -1,0 +1,109 @@
+pipeline {
+    agent any
+
+    tools {
+        gradle 'Gradle 8.7'
+    }
+
+    environment {
+        SONAR_TOKEN = credentials
+        tagName = "latest"
+        repositoryName = "simplecalculatorregistry.azurecr.io/calculator-api-dev"
+    }
+
+    stages {
+        stage('Checkout Code') {
+            steps {
+                // Use checkout scm plugin for improved security
+               checkout scmGit(
+                    branches: [[name: '*/master']],
+                    extensions: [],
+                    userRemoteConfigs: [[credentialsId: 'github-auth', url: 'https://github.com/RuFerdZ/simple-calculator-private.git']]
+                )
+            }
+        }
+
+        stage('Create build executable') {
+            steps {
+                sh 'chmod +x gradlew' // Make gradlew executable
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps () {
+              sh "./gradlew sonar"
+            }
+        }
+
+        stage('Gradle Build') {
+            steps {
+                sh './gradlew build'   // Build the project
+            }
+        }
+
+        stage('Unit tests') {
+            steps {
+                sh './gradlew test'  // Run tests
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                sh 'docker build -t ${repositoryName}:${tagName} .'
+            }
+        }
+
+
+        stage('Push to Registry') {
+            steps {
+                azureCLI commands: [
+                    [exportVariablesString: '', script: 'az acr login -n simpleCalculatorRegistry'],
+                    [exportVariablesString: '', script: 'docker push ${repositoryName}:${tagName}']
+                ],
+                principalCredentialId: 'azure-service-principle'
+            }
+        }
+    }
+
+    post {
+        always {
+            script {
+                def pipelineStatus = currentBuild.currentResult == null ? 'RUNNING' : currentBuild.currentResult
+                def color = ''
+                switch (pipelineStatus) {
+                    case 'SUCCESS':
+                        color = '#36a64f' // Green
+                        break
+                    case 'FAILURE':
+                        color = '#ff0000' // Red
+                        break
+                    case 'ABORTED':
+                        color = '#bdbdbd' // Grey
+                        break
+                    default:
+                        color = '#ffbf00' // Yellow
+                        break
+                }
+
+                def slackMessage = """
+                    *Pipeline Status Update*
+                    *Job Name:* ${env.JOB_NAME}
+                    *Build Number:* ${env.BUILD_NUMBER}
+                    *Build URL:* ${env.BUILD_URL}
+                    *Status:* ${pipelineStatus}
+                """
+
+                def attachment = [
+                    color: color,
+                    fallback: "Pipeline Status Update - ${env.JOB_NAME} - ${pipelineStatus}",
+                    text: slackMessage
+                ]
+
+                slackSend channel: 'fx-prod', attachments: [attachment], tokenCredentialId: 'slack-auth'
+            }
+        }
+        //success {
+        //    build job: 'cd-production'
+        //}
+    }
+}
