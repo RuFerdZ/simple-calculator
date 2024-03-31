@@ -5,12 +5,6 @@ pipeline {
         gradle 'Gradle 8.7'
     }
 
-    environment {
-        tagName = "latest"
-        repositoryName = "simplecalculatorregistry.azurecr.io/calculator-api-dev"
-        slackChannel = 'fx-dev'
-    }
-
     stages {
         stage('Create build executable') {
             steps {
@@ -38,7 +32,7 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-                sh 'docker build -t ${repositoryName}:${tagName} .'
+                sh 'docker build -t simplecalculatorregistry.azurecr.io/calculator-api-dev:latest .'
             }
         }
 
@@ -87,7 +81,7 @@ pipeline {
                     text: slackMessage
                 ]
 
-                slackSend channel: '$slackChannel' , attachments: [attachment], tokenCredentialId: 'slack-auth'
+                slackSend channel: 'fx-dev' , attachments: [attachment], tokenCredentialId: 'slack-auth'
             }
         }
         //success {
