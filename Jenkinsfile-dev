@@ -36,7 +36,7 @@ pipeline {
             }
         }
 
-        stage('Push to Registry') {
+        stage('Push to Azure Container Registry') {
             steps {
                 azureCLI commands: [
                     [exportVariablesString: '', script: 'az acr login -n simpleCalculatorRegistry'],
@@ -46,7 +46,7 @@ pipeline {
             }
         }
 
-        stage('Deploy API') {
+        stage('Deploy to Azure Container Apps') {
             steps {
                 azureCLI commands: [
                     [exportVariablesString: '', script: 'az acr login -n simpleCalculatorRegistry'],
