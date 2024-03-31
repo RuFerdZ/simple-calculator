@@ -40,7 +40,7 @@ public class CalculatorController {
     }
 
     @GetMapping("/remainder")
-    public int divide(@RequestParam int a, @RequestParam int b) {
+    public int remainder(@RequestParam int a, @RequestParam int b) {
         logger.info("Finding remainder {} and {}", a, b);
         return a % b;
     }
