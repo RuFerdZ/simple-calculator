@@ -36,11 +36,21 @@ pipeline {
             }
         }
 
-        stage('Push to Registry') {
+        stage('Push to Azure Container Registry') {
             steps {
                 azureCLI commands: [
                     [exportVariablesString: '', script: 'az acr login -n simpleCalculatorRegistry'],
                     [exportVariablesString: '', script: 'docker push simplecalculatorregistry.azurecr.io/calculator-api-staging:latest']
+                ],
+                principalCredentialId: 'azure-jenkins-app-auth'
+            }
+        }
+
+        stage('Deploy to Azure Container Apps') {
+            steps {
+                azureCLI commands: [
+                    [exportVariablesString: '', script: 'az acr login -n simpleCalculatorRegistry'],
+                    [exportVariablesString: '', script: 'az webapp config container set --name simple-calculator-api-staging --resource-group fusion-x --docker-custom-image-name simplecalculatorregistry.azurecr.io/calculator-api-staging:latest']
                 ],
                 principalCredentialId: 'azure-jenkins-app-auth'
             }
