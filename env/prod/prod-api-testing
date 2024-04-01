@@ -2,6 +2,14 @@ pipeline {
     agent any
 
     stages {
+
+        stage('Waiting for Deployment') {
+            steps {
+                // Introduce a delay to wait for deployment to complete
+                sleep time: 1, unit: 'MINUTES'
+            }
+        }
+
         stage('Run API Tests') {
             steps {
                 sh 'newman run https://api.postman.com/collections/9209211-43042901-cf03-4f65-9b70-aeec2dd0a192?access_key=PMAT-01HTBFFT5QTGWZ895JRH8GKZ08'

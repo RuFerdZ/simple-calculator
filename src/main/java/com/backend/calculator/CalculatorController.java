@@ -44,4 +44,16 @@ public class CalculatorController {
         logger.info("Finding remainder {} and {}", a, b);
         return a % b;
     }
+
+    @GetMapping("/concat")
+    public String concat(@RequestParam String a, @RequestParam String b) {
+        logger.info("Concatenating {} and {}", a, b);
+        return a + b;
+    }
+
+    @GetMapping("/power")
+    public long power(@RequestParam double a, @RequestParam double b) {
+        logger.info("Finding power of {} and {}", a, b);
+        return (long) Math.pow(a, b);
+    }
 }

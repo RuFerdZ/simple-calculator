@@ -18,13 +18,7 @@ pipeline {
             }
         }
 
-        stage('Gradle Build') {
-            steps {
-                sh './gradlew build'   // Build the project
-            }
-        }
-
-        stage('Unit tests') {
+        stage('Running Unit tests') {
             steps {
                 sh './gradlew test'  // Run tests
             }
@@ -55,9 +49,14 @@ pipeline {
                 principalCredentialId: 'azure-jenkins-app-auth'
             }
         }
+
+        stage('Clean Workspace') {
+            steps {
+                // Clean up Docker image
+                sh 'docker rmi -f simplecalculatorregistry.azurecr.io/calculator-api-dev:latest'
+            }
+        }
     }
-
-
 
     post {
         always {
