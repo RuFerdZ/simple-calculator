@@ -97,7 +97,7 @@ pipeline {
             }
         }
         success {
-            build job: 'dev-api-testing'
+            build job: 'Automated API Test Jobs/dev-api-testing'
         }
     }
 }
