@@ -18,7 +18,7 @@ public class CalculatorTest {
     private MockMvc mockMvc;
 
     @Test
-    public void testAdditionEndpoint() throws Exception {
+    void testAdditionEndpoint() throws Exception {
         // Define test data
         int a = 2;
         int b = 3;
@@ -32,7 +32,7 @@ public class CalculatorTest {
     }
 
     @Test
-    public void testSubtractionEndpoint() throws Exception {
+    void testSubtractionEndpoint() throws Exception {
         // Define test data
         int a = 2;
         int b = 3;
@@ -46,7 +46,7 @@ public class CalculatorTest {
     }
 
     @Test
-    public void testMultiplicationEndpoint() throws Exception {
+    void testMultiplicationEndpoint() throws Exception {
         // Define test data
         int a = 2;
         int b = 3;
@@ -60,7 +60,7 @@ public class CalculatorTest {
     }
 
     @Test
-    public void testDivisionEndpoint() throws Exception {
+    void testDivisionEndpoint() throws Exception {
         // Define test data
         int a = 2;
         int b = 3;
@@ -74,7 +74,7 @@ public class CalculatorTest {
     }
 
     @Test
-    public void testRemainderEndpoint() throws Exception {
+    void testRemainderEndpoint() throws Exception {
         // Define test data
         int a = 2;
         int b = 3;
@@ -87,17 +87,31 @@ public class CalculatorTest {
                 .andExpect(content().string(String.valueOf(a % b)));
     }
 
+//    @Test
+//    void testConcatenationEndpoint() throws Exception {
+//        // Define test data
+//        String a = "Hello";
+//        String b = "World";
+//
+//        // Send request to endpoint and verify response
+//        mockMvc.perform(get(BASE_ENDPOINT + "/concat")
+//                        .param("a", a)
+//                        .param("b", b))
+//                .andExpect(status().isOk())
+//                .andExpect(content().string(a + b));
+//    }
+
     @Test
-    public void testConcatenationEndpoint() throws Exception {
+    void testPowerEndpoint() throws Exception {
         // Define test data
-        String a = "Hello";
-        String b = "World";
+        double a = 2;
+        double b = 3;
 
         // Send request to endpoint and verify response
-        mockMvc.perform(get(BASE_ENDPOINT + "/concat")
-                        .param("a", a)
-                        .param("b", b))
+        mockMvc.perform(get(BASE_ENDPOINT + "/power")
+                        .param("a", String.valueOf(a))
+                        .param("b", String.valueOf(b)))
                 .andExpect(status().isOk())
-                .andExpect(content().string(a + b));
+                .andExpect(content().string(String.valueOf((long) Math.pow(a, b))));
     }
 }

@@ -18,13 +18,7 @@ pipeline {
             }
         }
 
-        stage('Gradle Build') {
-            steps {
-                sh './gradlew build'   // Build the project
-            }
-        }
-
-        stage('Unit tests') {
+        stage('Running Unit tests') {
             steps {
                 sh './gradlew test'  // Run tests
             }
