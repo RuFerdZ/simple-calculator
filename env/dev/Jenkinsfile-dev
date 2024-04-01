@@ -49,9 +49,14 @@ pipeline {
                 principalCredentialId: 'azure-jenkins-app-auth'
             }
         }
+
+        stage('Clean Workspace') {
+            steps {
+                // Clean up Docker image
+                sh 'docker rmi -f simplecalculatorregistry.azurecr.io/calculator-api-dev:latest'
+            }
+        }
     }
-
-
 
     post {
         always {

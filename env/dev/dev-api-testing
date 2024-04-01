@@ -6,7 +6,7 @@ pipeline {
         stage('Waiting for Deployment') {
             steps {
                 // Introduce a delay to wait for deployment to complete
-                sleep 1
+                sleep time: 1, unit: 'MINUTES'
             }
         }
 
