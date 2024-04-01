@@ -1,0 +1,50 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Create build executable') {
+            steps {
+                sh 'newman run https://api.postman.com/collections/9209211-b74d564a-c78b-49da-9f3d-dc2e4eea0758?access_key=PMAT-01HTBFV26VEYPW3BYV7DWYRDM4'
+            }
+        }
+    }
+
+    post {
+        always {
+            script {
+                def pipelineStatus = currentBuild.currentResult == null ? 'RUNNING' : currentBuild.currentResult
+                def color = ''
+                switch (pipelineStatus) {
+                    case 'SUCCESS':
+                        color = '#36a64f' // Green
+                        break
+                    case 'FAILURE':
+                        color = '#ff0000' // Red
+                        break
+                    case 'ABORTED':
+                        color = '#bdbdbd' // Grey
+                        break
+                    default:
+                        color = '#ffbf00' // Yellow
+                        break
+                }
+
+                def slackMessage = """
+                    *API Testing Status Update*
+                    *Job Name:* ${env.JOB_NAME}
+                    *Build Number:* ${env.BUILD_NUMBER}
+                    *Build URL:* ${env.BUILD_URL}
+                    *Status:* ${pipelineStatus}
+                """
+
+                def attachment = [
+                    color: color,
+                    fallback: "API Testing Status Update - ${env.JOB_NAME} - ${pipelineStatus}",
+                    text: slackMessage
+                ]
+
+                slackSend channel: 'fx-dev' , attachments: [attachment], tokenCredentialId: 'slack-auth'
+            }
+        }
+    }
+}
