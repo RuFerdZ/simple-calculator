@@ -94,5 +94,8 @@ pipeline {
                 slackSend channel: 'fx-prod' , attachments: [attachment], tokenCredentialId: 'slack-auth'
             }
         }
+        success {
+            build job: 'Automated API Test Jobs/prod-api-testing'
+        }
     }
 }
