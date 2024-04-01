@@ -38,4 +38,10 @@ public class CalculatorController {
         logger.info("Dividing {} and {}", a, b);
         return a / b;
     }
+
+    @GetMapping("/remainder")
+    public int remainder(@RequestParam int a, @RequestParam int b) {
+        logger.info("Finding remainder {} and {}", a, b);
+        return a % b;
+    }
 }

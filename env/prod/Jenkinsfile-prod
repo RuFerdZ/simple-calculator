@@ -32,7 +32,7 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-                sh 'docker build -t simplecalculatorregistry.azurecr.io/calculator-api-staging:latest .'
+                sh 'docker build -t simplecalculatorregistry.azurecr.io/calculator-api:latest .'
             }
         }
 
@@ -40,7 +40,7 @@ pipeline {
             steps {
                 azureCLI commands: [
                     [exportVariablesString: '', script: 'az acr login -n simpleCalculatorRegistry'],
-                    [exportVariablesString: '', script: 'docker push simplecalculatorregistry.azurecr.io/calculator-api-staging:latest']
+                    [exportVariablesString: '', script: 'docker push simplecalculatorregistry.azurecr.io/calculator-api:latest']
                 ],
                 principalCredentialId: 'azure-jenkins-app-auth'
             }
@@ -50,7 +50,7 @@ pipeline {
             steps {
                 azureCLI commands: [
                     [exportVariablesString: '', script: 'az acr login -n simpleCalculatorRegistry'],
-                    [exportVariablesString: '', script: 'az webapp config container set --name simple-calculator-api-staging --resource-group fusion-x --docker-custom-image-name simplecalculatorregistry.azurecr.io/calculator-api-staging:latest']
+                    [exportVariablesString: '', script: 'az webapp config container set --name simple-calculator-api --resource-group fusion-x --docker-custom-image-name simplecalculatorregistry.azurecr.io/calculator-api:latest']
                 ],
                 principalCredentialId: 'azure-jenkins-app-auth'
             }
@@ -78,7 +78,7 @@ pipeline {
                 }
 
                 def slackMessage = """
-                    *Pipeline Status Update*
+                    *CI/CD Pipeline Pipeline Status Update*
                     *Job Name:* ${env.JOB_NAME}
                     *Build Number:* ${env.BUILD_NUMBER}
                     *Build URL:* ${env.BUILD_URL}
@@ -87,12 +87,15 @@ pipeline {
 
                 def attachment = [
                     color: color,
-                    fallback: "Pipeline Status Update - ${env.JOB_NAME} - ${pipelineStatus}",
+                    fallback: "CI/CD Pipeline Pipeline Status Update - ${env.JOB_NAME} - ${pipelineStatus}",
                     text: slackMessage
                 ]
 
-                slackSend channel: 'fx-stage' , attachments: [attachment], tokenCredentialId: 'slack-auth'
+                slackSend channel: 'fx-prod' , attachments: [attachment], tokenCredentialId: 'slack-auth'
             }
+        }
+        success {
+            build job: 'Automated API Test Jobs/prod-api-testing'
         }
     }
 }
