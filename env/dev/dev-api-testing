@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     stages {
-        stage('Create build executable') {
+        stage('Run API Tests') {
             steps {
                 sh 'newman run https://api.postman.com/collections/9209211-b74d564a-c78b-49da-9f3d-dc2e4eea0758?access_key=PMAT-01HTBFV26VEYPW3BYV7DWYRDM4'
             }
