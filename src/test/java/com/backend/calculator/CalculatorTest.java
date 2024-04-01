@@ -87,19 +87,19 @@ public class CalculatorTest {
                 .andExpect(content().string(String.valueOf(a % b)));
     }
 
-//    @Test
-//    void testConcatenationEndpoint() throws Exception {
-//        // Define test data
-//        String a = "Hello";
-//        String b = "World";
-//
-//        // Send request to endpoint and verify response
-//        mockMvc.perform(get(BASE_ENDPOINT + "/concat")
-//                        .param("a", a)
-//                        .param("b", b))
-//                .andExpect(status().isOk())
-//                .andExpect(content().string(a + b));
-//    }
+    @Test
+    void testConcatenationEndpoint() throws Exception {
+        // Define test data
+        String a = "Hello";
+        String b = "World";
+
+        // Send request to endpoint and verify response
+        mockMvc.perform(get(BASE_ENDPOINT + "/concat")
+                        .param("a", a)
+                        .param("b", b))
+                .andExpect(status().isOk())
+                .andExpect(content().string(a + b));
+    }
 
     @Test
     void testPowerEndpoint() throws Exception {
