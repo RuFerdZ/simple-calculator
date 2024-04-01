@@ -56,4 +56,10 @@ public class CalculatorController {
         logger.info("Finding power of {} and {}", a, b);
         return (long) Math.pow(a, b);
     }
+
+    @GetMapping("/square")
+    public long square(@RequestParam double a) {
+        logger.info("Finding square of {}", a);
+        return (long) Math.pow(a, 2);
+    }
 }
