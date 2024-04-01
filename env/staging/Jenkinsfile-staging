@@ -78,7 +78,7 @@ pipeline {
                 }
 
                 def slackMessage = """
-                    *Pipeline Status Update*
+                    *CI/CD Pipeline Pipeline Status Update*
                     *Job Name:* ${env.JOB_NAME}
                     *Build Number:* ${env.BUILD_NUMBER}
                     *Build URL:* ${env.BUILD_URL}
@@ -87,7 +87,7 @@ pipeline {
 
                 def attachment = [
                     color: color,
-                    fallback: "Pipeline Status Update - ${env.JOB_NAME} - ${pipelineStatus}",
+                    fallback: "CI/CD Pipeline Pipeline Status Update - ${env.JOB_NAME} - ${pipelineStatus}",
                     text: slackMessage
                 ]
 
