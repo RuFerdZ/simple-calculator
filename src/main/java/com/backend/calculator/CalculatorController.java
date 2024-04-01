@@ -44,4 +44,10 @@ public class CalculatorController {
         logger.info("Finding remainder {} and {}", a, b);
         return a % b;
     }
+
+    @GetMapping("/concat")
+    public String concat(@RequestParam String a, @RequestParam String b) {
+        logger.info("Concatenating {} and {}", a, b);
+        return a + b;
+    }
 }

@@ -72,4 +72,32 @@ public class CalculatorTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(String.valueOf(a / b)));
     }
+
+    @Test
+    public void testRemainderEndpoint() throws Exception {
+        // Define test data
+        int a = 2;
+        int b = 3;
+
+        // Send request to endpoint and verify response
+        mockMvc.perform(get(BASE_ENDPOINT + "/remainder")
+                        .param("a", String.valueOf(a))
+                        .param("b", String.valueOf(b)))
+                .andExpect(status().isOk())
+                .andExpect(content().string(String.valueOf(a % b)));
+    }
+
+    @Test
+    public void testConcatenationEndpoint() throws Exception {
+        // Define test data
+        String a = "Hello";
+        String b = "World";
+
+        // Send request to endpoint and verify response
+        mockMvc.perform(get(BASE_ENDPOINT + "/concat")
+                        .param("a", a)
+                        .param("b", b))
+                .andExpect(status().isOk())
+                .andExpect(content().string(a + b));
+    }
 }
