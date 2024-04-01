@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Run API Tests') {
             steps {
-                sh 'newman run https://api.postman.com/collections/9209211-b74d564a-c78b-49da-9f3d-dc2e4eea0758?access_key=PMAT-01HTBFV26VEYPW3BYV7DWYRDM4'
+                sh 'newman run https://api.postman.com/collections/9209211-43042901-cf03-4f65-9b70-aeec2dd0a192?access_key=PMAT-01HTBFFT5QTGWZ895JRH8GKZ08'
             }
         }
     }
@@ -43,7 +43,7 @@ pipeline {
                     text: slackMessage
                 ]
 
-                slackSend channel: 'fx-dev' , attachments: [attachment], tokenCredentialId: 'slack-auth'
+                slackSend channel: 'fx-prod' , attachments: [attachment], tokenCredentialId: 'slack-auth'
             }
         }
     }
