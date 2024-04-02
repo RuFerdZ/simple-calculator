@@ -138,4 +138,16 @@ public class CalculatorTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(String.valueOf(Math.sqrt(a))));
     }
+
+    @Test
+    void testLogEndpoint() throws Exception {
+        // Define test data
+        double a = 4;
+
+        // Send request to endpoint and verify response
+        mockMvc.perform(get(BASE_ENDPOINT + "/log")
+                        .param("a", String.valueOf(a)))
+                .andExpect(status().isOk())
+                .andExpect(content().string(String.valueOf(Math.log(a))));
+    }
 }
