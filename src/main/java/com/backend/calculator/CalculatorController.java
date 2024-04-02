@@ -62,4 +62,10 @@ public class CalculatorController {
         logger.info("Finding square of {}", a);
         return (long) Math.pow(a, 2);
     }
+
+    @GetMapping("/sqrt")
+    public double sqrt(@RequestParam double a) {
+        logger.info("Finding square root of {}", a);
+        return Math.sqrt(a);
+    }
 }
