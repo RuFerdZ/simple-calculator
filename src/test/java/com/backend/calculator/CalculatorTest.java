@@ -126,4 +126,16 @@ public class CalculatorTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(String.valueOf((long) Math.pow(a, 2))));
     }
+
+    @Test
+    void testSquareRootEndpoint() throws Exception {
+        // Define test data
+        double a = 4;
+
+        // Send request to endpoint and verify response
+        mockMvc.perform(get(BASE_ENDPOINT + "/sqrt")
+                        .param("a", String.valueOf(a)))
+                .andExpect(status().isOk())
+                .andExpect(content().string(String.valueOf(Math.sqrt(a))));
+    }
 }
