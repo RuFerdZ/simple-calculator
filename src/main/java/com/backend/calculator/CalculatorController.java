@@ -15,6 +15,7 @@ public class CalculatorController {
 
     Logger logger = LoggerFactory.getLogger(CalculatorController.class);
 
+    // Addtion function
     @GetMapping("/add")
     public int add(@RequestParam int a, @RequestParam int b) {
         logger.info("Adding {} and {}", a, b);
