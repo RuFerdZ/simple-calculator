@@ -40,7 +40,7 @@ pipeline {
             }
         }
 
-        stage('Deploy to Azure Container Apps') {
+        stage('Deploy to Azure App Services') {
             steps {
                 azureCLI commands: [
                     [exportVariablesString: '', script: 'az acr login -n simpleCalculatorRegistry'],
