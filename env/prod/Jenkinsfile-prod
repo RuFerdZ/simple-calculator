@@ -30,7 +30,7 @@ pipeline {
             }
         }
 
-        stage('Push to Azure Container Registry') {
+        stage('Push to Azure App Services') {
             steps {
                 azureCLI commands: [
                     [exportVariablesString: '', script: 'az acr login -n simpleCalculatorRegistry'],
