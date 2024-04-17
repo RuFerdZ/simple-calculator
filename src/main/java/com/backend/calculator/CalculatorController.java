@@ -22,6 +22,11 @@ public class CalculatorController {
         return a + b;
     }
 
+    @GetMapping("/hello")
+    public String hello() {
+        return "Hello World";
+    }
+
     @GetMapping("/subtract")
     public int subtract(@RequestParam int a, @RequestParam int b) {
         logger.info("Subtracting {} and {}", a, b);
